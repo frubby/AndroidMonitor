@@ -94,6 +94,8 @@ public class DeviceAdapter extends BaseAdapter {
 
         itemViews.state.setText((String) data.get(position).get("state"));
 
+
+
         return convertView;
     }
 }

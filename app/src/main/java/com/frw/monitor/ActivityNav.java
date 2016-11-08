@@ -3,8 +3,11 @@ package com.frw.monitor;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.frw.monitor.common.EnumLoadType;
 import com.frw.monitor.common.EnumStats;
@@ -20,6 +23,32 @@ import java.util.Map;
 public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener {
 
     private ListView listView;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_setting:
+                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
+                        .show();
+                Intent it=new Intent(this,SettingsActivity.class);
+                this.startActivity(it);
+                break;
+
+
+            default:
+                break;
+        }
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +85,6 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         node1_sw1.setClickListener(this);
 
 
-
         AndroidTreeView tView = new AndroidTreeView(this, root);
 
         LinearLayout layout = (LinearLayout) this.findViewById(R.id.id_drawer);
@@ -66,8 +94,6 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         listView = (ListView) findViewById(R.id.id_lv);
         List<Map<String, Object>> list = getData();
         listView.setAdapter(new DeviceAdapter(this, list));
-
-
 
 
     }
@@ -94,9 +120,8 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     @Override
     public void onClick(TreeNode node, Object value) {
-        Intent it=new Intent(this,ActivityDevice.class);
+        Intent it = new Intent(this, ActivityDevice.class);
         this.startActivity(it);
-
 
 
     }

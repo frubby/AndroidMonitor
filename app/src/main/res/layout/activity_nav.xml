@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="台区信息"
-                    android:textSize="25dp"
+                    android:textSize="30dp"
                     android:textAlignment="center"/>
 
                 <LinearLayout
@@ -38,26 +38,36 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="16dp"
                         android:text="IA" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="16dp"
+
                         android:text="IB" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="16dp"
+
                         android:text="IC" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="16dp"
+
                         android:text="三相负荷不平衡度" />
                 </LinearLayout>
+
             </LinearLayout>
 
             <ListView
-                android:layout_marginTop="10dp"
+
+                android:padding="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_below="@id/area_layout"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/id_lv"
