@@ -6,9 +6,9 @@ package com.frw.monitor.common;
 
 public enum EnumLoadType {
 
-    AXIANG(1, "A相"),
-    BXIANG(2, "B相"),
-    BISUO(3, "闭锁");
+    LEVEL_1(1, "一级负荷"),
+    LEVEL_2(2, "二级负荷"),
+    LEVEL_IMP(3, "重要负荷");
 
     private EnumLoadType(int value, String text) {
         this.val = val;

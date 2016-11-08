@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_device"
     android:layout_width="match_parent"
@@ -8,6 +9,165 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.frw.monitor.activity_device">
+    tools:context="com.frw.monitor.ActivityDevice">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/device_name">
+
+        <com.beardedhen.androidbootstrap.BootstrapLabel
+            android:id="@+id/item_device_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="id"
+            app:bootstrapBrand="info"
+            app:bootstrapHeading="h5"
+            app:roundedCorners="true" />
+
+        <com.beardedhen.androidbootstrap.AwesomeTextView
+            android:id="@+id/item_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="name"
+            android:textSize="20dp"
+            app:roundedCorners="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/device_info"
+        android:layout_below="@+id/device_name">
+
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_device_now_load"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="当前负荷"
+                android:textAlignment="center" />
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="IA" />-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/item_device_load_ia"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FF0000"
+                    android:paddingLeft="5px"
+                    android:paddingRight="5px"
+                    android:text="12"
+                    app:roundedCorners="true" />
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/item_device_load_ib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:background="#00FF00"
+                    android:paddingLeft="5px"
+                    android:paddingRight="5px"
+                    android:text="13"
+                    app:roundedCorners="true" />
+
+                <com.beardedhen.androidbootstrap.AwesomeTextView
+                    android:id="@+id/item_device_load_ic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:background="#0000FF"
+                    android:paddingLeft="5px"
+                    android:paddingRight="5px"
+                    android:text="15"
+                    app:roundedCorners="true" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:stretchColumns="0,1,2">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="出线负荷" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="动作次数" />
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="状态" />
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类型" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/item_device_out_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+
+                <TextView
+                    android:id="@+id/item_device_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/item_device_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+
+                <TextView
+                    android:id="@+id/item_device_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/device_chart"
+        android:layout_below="@+id/device_info"
+         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

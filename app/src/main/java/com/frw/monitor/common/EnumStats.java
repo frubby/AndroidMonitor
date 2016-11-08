@@ -6,14 +6,24 @@ package com.frw.monitor.common;
 
 public enum EnumStats {
 
-    AXIANG(1){
+    AXIANG(1, "A相"),
+    BXIANG(2, "B相"),
+    BISUO(3, "闭锁");
 
-    };
-
-    private EnumStats(int value){
-        this.val=val;
+    private EnumStats(int value, String text) {
+        this.val = val;
+        this.text = text;
 
     }
+
     public int val;
     public String text;
+
+    public int getVal() {
+        return val;
+    }
+
+    public String getText() {
+        return text;
+    }
 }
