@@ -1,6 +1,7 @@
 package com.frw.monitor;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener {
 
     private ListView listView;
-
+    private Handler mHandler = new Handler();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -38,7 +39,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
             case R.id.menu_setting:
                 Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT)
                         .show();
-                Intent it=new Intent(this,SettingsActivity.class);
+                Intent it = new Intent(this, SettingsActivity.class);
                 this.startActivity(it);
                 break;
 
@@ -79,12 +80,12 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         node1_child2.text = "开关TEST二";
         TreeNode node1_sw2 = new TreeNode(node1_child2).setViewHolder(new Level2Holder(this));
 
-        Level2Holder.IconTreeItem node1_child3= new Level2Holder.IconTreeItem();
+        Level2Holder.IconTreeItem node1_child3 = new Level2Holder.IconTreeItem();
         node1_child3.text = "开关TEST三";
         TreeNode node1_sw3 = new TreeNode(node1_child3).setViewHolder(new Level2Holder(this));
 
 
-        node1.addChildren(node1_sw1, node1_sw2,node1_sw3);
+        node1.addChildren(node1_sw1, node1_sw2, node1_sw3);
 
         node1_sw1.setClickListener(this);
 
@@ -100,6 +101,18 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         listView.setAdapter(new DeviceAdapter(this, list));
 
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     public List<Map<String, Object>> getData() {
