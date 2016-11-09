@@ -165,9 +165,8 @@
 
     </LinearLayout>
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/device_chart"
-        android:layout_below="@+id/device_info"
-         android:layout_width="match_parent"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>
