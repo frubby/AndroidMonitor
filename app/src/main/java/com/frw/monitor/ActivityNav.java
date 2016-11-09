@@ -64,23 +64,27 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         TreeNode node1 = new TreeNode(nodeItem1).setViewHolder(new MyHeadHolder(this));
         root.addChild(node1);
 
-        MyHeadHolder.IconTreeItem nodeItem2 = new MyHeadHolder.IconTreeItem();
-        nodeItem2.text = "台区二";
-        TreeNode node2 = new TreeNode(nodeItem2).setViewHolder(new MyHeadHolder(this));
-
-        root.addChild(node2);
+//        MyHeadHolder.IconTreeItem nodeItem2 = new MyHeadHolder.IconTreeItem();
+//        nodeItem2.text = "台区二";
+//        TreeNode node2 = new TreeNode(nodeItem2).setViewHolder(new MyHeadHolder(this));
+//
+//        root.addChild(node2);
 
 
         Level2Holder.IconTreeItem node1_child1 = new Level2Holder.IconTreeItem();
-        node1_child1.text = "开关一";
+        node1_child1.text = "开关TEST一";
         TreeNode node1_sw1 = new TreeNode(node1_child1).setViewHolder(new Level2Holder(this));
 
         Level2Holder.IconTreeItem node1_child2 = new Level2Holder.IconTreeItem();
-        node1_child2.text = "开关二";
+        node1_child2.text = "开关TEST二";
         TreeNode node1_sw2 = new TreeNode(node1_child2).setViewHolder(new Level2Holder(this));
 
+        Level2Holder.IconTreeItem node1_child3= new Level2Holder.IconTreeItem();
+        node1_child3.text = "开关TEST三";
+        TreeNode node1_sw3 = new TreeNode(node1_child3).setViewHolder(new Level2Holder(this));
 
-        node1.addChildren(node1_sw1, node1_sw2);
+
+        node1.addChildren(node1_sw1, node1_sw2,node1_sw3);
 
         node1_sw1.setClickListener(this);
 
