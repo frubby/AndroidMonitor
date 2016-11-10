@@ -15,66 +15,123 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
                 android:id="@+id/area_layout"
-                android:layout_alignParentTop="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="台区信息"
-                    android:textSize="30dp"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
-                        android:text="IA" />
+                        android:orientation="horizontal">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IA"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/area_ia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="0.1"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
+                        android:orientation="horizontal">
 
-                        android:text="IB" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IB"
 
-                    <TextView
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/area_ib"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="0.1"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
+                        android:orientation="horizontal">
 
-                        android:text="IC" />
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IC"
+
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/area_ic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="0.1"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16dp"
+                        android:orientation="horizontal">
 
-                        android:text="三相负荷不平衡度" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="三相负荷不平衡度"
+
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/area_load_degree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="0.1"
+                            android:textSize="16dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
             <ListView
 
-                android:padding="10dp"
-                android:layout_marginTop="12dp"
-                android:layout_below="@id/area_layout"
-                android:layout_alignParentBottom="true"
                 android:id="@+id/id_lv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/area_layout"
+                android:layout_marginTop="12dp"
                 android:divider="#d1cfce"
-                android:dividerHeight="1dp"></ListView>
+                android:dividerHeight="1dp"
+                android:padding="10dp"></ListView>
         </RelativeLayout>
 
 

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapLabel;
+import com.frw.monitor.common.EnumLoadType;
+import com.frw.monitor.common.EnumStats;
 
 import java.util.List;
 import java.util.Map;
@@ -90,10 +92,9 @@ public class DeviceAdapter extends BaseAdapter {
 
         itemViews.ic.setText((String) data.get(position).get("ic"));
 
-        itemViews.type.setText((String) data.get(position).get("type"));
+        itemViews.type.setText( ((EnumLoadType) data.get(position).get("type")).getText());
 
-        itemViews.state.setText((String) data.get(position).get("state"));
-
+        itemViews.state.setText( ((EnumStats) data.get(position).get("state")).getText());
 
 
         return convertView;
