@@ -1,5 +1,7 @@
 package com.frw.monitor.net;
 
+import com.frw.monitor.bean.Data;
+
 public class Protocol {
 	private TcpLink link;
 	private boolean linkState;

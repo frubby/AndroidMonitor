@@ -3,24 +3,24 @@ package com.frw.monitor.net;
 public interface TcpLink {
 	public char[] sendData = new char[512];
 	public char[] receiveData = new char[512];
-	
-	
+
+
 	/**
-	 * ���ӷ����
-	 * @return �ɹ� true
+	 * 连接服务端
+	 * @return 成功 true
 	 */
 	public boolean tcpConnect();
-	
+
 	/**
-	 * �ر�����
-	 * @return �ɹ� true
+	 * 关闭连接
+	 * @return 成功 true
 	 */
 	public boolean disconnected();
-	
+
 	/**
-	 * ���ͽ�������
-	 * @param num �账���ֽ���
-	 * @return ʵ�ʴ����ֽ���
+	 * 发送接收数据
+	 * @param num 需处理字节数
+	 * @return 实际处理字节数
 	 */
 	public int tcpSend(int num);
 	public int tcpReceive(int num);
