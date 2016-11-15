@@ -135,6 +135,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         } else {
             String strData = sp.getString("data", "");
             Data data = JSON.parseObject(strData, Data.class);
+            Log.i(TAG,strData);
             initStruct(data);
 
             //        initTree(DataMock.area);
