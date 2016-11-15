@@ -92,9 +92,9 @@ public class DeviceAdapter extends BaseAdapter {
 
         itemViews.ic.setText((String) data.get(position).get("ic"));
 
-        itemViews.type.setText( ((EnumLoadType) data.get(position).get("type")).getText());
+        itemViews.type.setText( (String)data.get(position).get("type"));
 
-        itemViews.state.setText( ((EnumStats) data.get(position).get("state")).getText());
+        itemViews.state.setText( (String)data.get(position).get("state"));
 
 
         return convertView;

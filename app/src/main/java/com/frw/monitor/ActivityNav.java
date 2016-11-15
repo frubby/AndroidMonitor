@@ -1,7 +1,9 @@
 package com.frw.monitor;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,10 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.frw.monitor.bean.Data;
 import com.frw.monitor.bean.SwitchData;
+import com.frw.monitor.common.EnumStats;
 import com.frw.monitor.dialog.FileChooserDialog;
 import com.frw.monitor.task.DataThread;
 import com.unnamed.b.atv.model.TreeNode;
@@ -26,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +42,11 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     public final static int STRUCT_REFRESH = 3;
 
     public static final String TAG = "ActivityNav";
-
+    public static final String DATABASE = "Database";
     private ListView listView;
+
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -89,22 +98,22 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
     private void refreshArea() {
+        Data area = SampleApplication.getData();
 
-//        Area area = DataMock.area;
-//        TextView tvAreaIa = (TextView) this.findViewById(R.id.area_ia);
-//        TextView tvAreaIb = (TextView) this.findViewById(R.id.area_ib);
-//        TextView tvAreaIc = (TextView) this.findViewById(R.id.area_ic);
-//        TextView tvAreaLoadDegree = (TextView) this.findViewById(R.id.area_load_degree);
-//        tvAreaIa.setText("" + area.getIa());
-//        tvAreaIb.setText("" + area.getIb());
-//        tvAreaIc.setText("" + area.getIc());
-//        tvAreaLoadDegree.setText("" + area.getLoadDegree());
-
+        TextView tvAreaIa = (TextView) this.findViewById(R.id.area_ia);
+        TextView tvAreaIb = (TextView) this.findViewById(R.id.area_ib);
+        TextView tvAreaIc = (TextView) this.findViewById(R.id.area_ic);
+        TextView tvAreaLoadDegree = (TextView) this.findViewById(R.id.area_load_degree);
+        tvAreaIa.setText("" + area.Ia);
+        tvAreaIb.setText("" + area.Ib);
+        tvAreaIc.setText("" + area.Ic);
+        tvAreaLoadDegree.setText("" + area.imbalance);
     }
 
     private void refreshDeviceList() {
         list.clear();
         list.addAll(getData());
+        //TODO error congig file error
         deviceAdapter.notifyDataSetChanged();
 
     }
@@ -116,13 +125,25 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
+        sp = getSharedPreferences(DATABASE, Activity.MODE_PRIVATE);
+        // 获取Editor对象
+        editor = sp.edit();
 
+        if (sp.getString("data", "").equals("")) {
+            Toast toast = Toast.makeText(this, "缺少配置文件", Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            String strData = sp.getString("data", "");
+            Data data = JSON.parseObject(strData, Data.class);
+            initStruct(data);
 
-//        initTree(DataMock.area);
-        list = getData();
-        listView = (ListView) findViewById(R.id.id_lv);
-        deviceAdapter = new DeviceAdapter(this, list);
-        listView.setAdapter(deviceAdapter);
+            //        initTree(DataMock.area);
+            list = getData();
+            listView = (ListView) findViewById(R.id.id_lv);
+            deviceAdapter = new DeviceAdapter(this, list);
+            listView.setAdapter(deviceAdapter);
+        }
+
 
     }
 
@@ -148,21 +169,21 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     public List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-//        for (Device device : DataMock.area.getDevices()) {
-//            Map<String, Object> map = new HashMap<String, Object>();
-//            map.put("id", "" + device.getId());
-//            map.put("name", device.getName());
-//            map.put("ia", "" + device.getIa());
-//
-//            map.put("ib", "" + device.getIb());
-//            map.put("ic", "" + device.getIc());
-//
-//            map.put("state", EnumStats.values()[device.getState()]);
-//
-//            map.put("type", EnumLoadType.values()[device.getType()]);
-//
-//            list.add(map);
-//        }
+        Data data = SampleApplication.getData();
+        for (int i = 0; i < data.num; i++) {
+            SwitchData switchData[] = data.sdata;
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", "" + switchData[i].address);
+            map.put("name", switchData[i].name);
+            map.put("ia", "" + switchData[i].Ia);
+            map.put("ib", "" + switchData[i].Ib);
+            map.put("ic", "" + switchData[i].Ic);
+
+            map.put("state", switchData[i].switchState);
+            map.put("type", switchData[i].loadType);
+
+            list.add(map);
+        }
         return list;
     }
 
@@ -171,12 +192,10 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         Intent it = new Intent(this, ActivityDevice.class);
         this.startActivity(it);
 
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -202,6 +221,11 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                         Data data = parseConfig(file);
                         if (data != null) {
                             initStruct(data);
+                            editor.clear();
+                            String strData = JSON.toJSONString(data);
+                            editor.putString("data", strData);
+                            editor.commit();
+
                             Toast toast = Toast.makeText(source.getContext(), "File selected: " + file.getName(), Toast.LENGTH_LONG);
                             toast.show();
                         } else {
@@ -256,7 +280,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                 }
                 num++;
             }
-            data.num = num-1;
+            data.num = num - 1;
 
             return data;
         } catch (FileNotFoundException e) {
@@ -296,6 +320,9 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         LinearLayout layout = (LinearLayout) this.findViewById(R.id.id_drawer);
         layout.removeAllViewsInLayout();
         layout.addView(tView.getView());
+
+        // 存储
+        SampleApplication.initData( data);
 
     }
 

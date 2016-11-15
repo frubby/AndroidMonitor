@@ -1,5 +1,10 @@
 package com.frw.monitor.common;
 
+import com.frw.monitor.bean.Data;
+import com.frw.monitor.bean.SwitchData;
+
+import java.util.Random;
+
 /**
  * Created by fruwei on 2016/11/9.
  */
@@ -7,8 +12,7 @@ package com.frw.monitor.common;
 public class DataMock {
 
 
-//    public static Area area = generateStruct();
-//
+    //
 //    public static Area generateStruct() {
 //        area = new Area();
 //        Random random = new Random();
@@ -25,24 +29,26 @@ public class DataMock {
 //        return area;
 //    }
 //
-//    public static Area generateData() {
-//        Random random = new Random();
-//        area.setIa(random.nextInt(100) / 50.0);
-//        area.setIb(random.nextInt(100) / 50.0);
-//        area.setIc(random.nextInt(100) / 50.0);
-//        area.setLoadDegree(random.nextInt(360));
-//        for (Device device : area.getDevices()) {
-//            device.setIa(random.nextInt(100) / 50.0);
-//            device.setIb(random.nextInt(100) / 50.0);
-//            device.setIc(random.nextInt(100) / 50.0);
-//
-//
-//            device.setOut(random.nextInt(100) / 50.0);
-//            device.setActNum(random.nextInt(20));
-//            device.setState(random.nextInt(3));
-//            device.setType(random.nextInt(3));
-//        }
-//        return area;
-//    }
+    public static void generateData(Data area) {
+        Random random = new Random();
+        area.Ia = (random.nextInt(100) / 50.0f);
+        area.Ib = (random.nextInt(100) / 50.0f);
+        area.Ic = (random.nextInt(100) / 50.0f);
+        area.imbalance = (float) (random.nextInt(360));
+        SwitchData switchData[] = area.sdata;
+        for (int i = 0; i < area.num; i++) {
+            SwitchData device = area.sdata[i];
+            device.Ia = (random.nextInt(100) / 50.0f);
+            device.Ib = (random.nextInt(100) / 50.0f);
+            device.Ic = (random.nextInt(100) / 50.0f);
+
+
+            device.load = (random.nextInt(100) / 50.0f);
+            device.num = (random.nextInt(20));
+            device.switchState = (EnumStats.values()[random.nextInt(3)].getText());
+
+            device.loadType = (EnumLoadType.values()[random.nextInt(3)].getText());
+        }
+    }
 
 }

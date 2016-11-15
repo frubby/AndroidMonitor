@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.frw.monitor.ActivityNav;
+import com.frw.monitor.SampleApplication;
+import com.frw.monitor.bean.Data;
 import com.frw.monitor.common.DataMock;
 import com.frw.monitor.net.TcpClient;
 
@@ -36,7 +38,17 @@ public class DataThread extends Thread {
             Log.i("test", "run:  " + ip);
 
 
-//            DataMock.area = DataMock.generateData();
+            Data data = SampleApplication.getData();
+            if (data == null) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                continue;
+            }
+
+            DataMock.generateData(data);
             Message msg = handler.obtainMessage(ActivityNav.DATA_REFRESH);
             handler.sendMessage(msg);
 
