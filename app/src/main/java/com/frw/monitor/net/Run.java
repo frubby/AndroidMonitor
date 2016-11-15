@@ -7,25 +7,29 @@ public class Run {
     TcpLink link = new LinkPro();//换成你实际实现的类
 
     int refreshTime = 1;//换成实际刷新时间
+    boolean flag = true;//线程运行标志
 
     public void run() {//单开一线程来跑
         Protocol protocol = new Protocol(link);
 
-        do {
+        while (flag) {
             if (!protocol.getLinkState()) {
                 try {
-                    while (!link.tcpConnect())
+                    while (flag && !link.tcpConnect())
                         Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            if (!flag)
+                break;
 
             protocol.dataProcess();
             data = protocol.getData();
 
             if (!protocol.getLinkState()) {
                 link.disconnected();
+                protocol.setLinkStateNum(0);
             }
 
             try {
@@ -33,7 +37,7 @@ public class Run {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while (protocol.getLinkState());
+        }
 
     }
 

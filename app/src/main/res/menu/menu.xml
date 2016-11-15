@@ -5,4 +5,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="设置" />
+    <item
+        android:id="@+id/menu_loading"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="载入配置" />
+
 </menu>

@@ -36,7 +36,7 @@ public class DataThread extends Thread {
             Log.i("test", "run:  " + ip);
 
 
-            DataMock.area = DataMock.generateData();
+//            DataMock.area = DataMock.generateData();
             Message msg = handler.obtainMessage(ActivityNav.DATA_REFRESH);
             handler.sendMessage(msg);
 
