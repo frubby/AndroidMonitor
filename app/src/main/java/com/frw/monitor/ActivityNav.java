@@ -256,7 +256,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                 }
                 num++;
             }
-            data.num = num;
+            data.num = num-1;
 
             return data;
         } catch (FileNotFoundException e) {
