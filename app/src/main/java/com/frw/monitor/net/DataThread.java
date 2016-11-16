@@ -22,7 +22,7 @@ public class DataThread extends Thread {
         this.handler = handler;
         this.context = context;
         String ip = PreferenceManager.getDefaultSharedPreferences(context).getString("text_ip", "");
-        int port = PreferenceManager.getDefaultSharedPreferences(context).getInt("text_port", 1234);
+        int port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("text_port", "1234"));
 
     }
 

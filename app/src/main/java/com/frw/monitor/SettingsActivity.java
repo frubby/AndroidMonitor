@@ -40,7 +40,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
             editTextIp.setSummary(sharedPreferences.getString("text_ip", "192.168.0.1"));
         }
         if (s.equals("text_port")) {
-            editTextPort.setSummary(sharedPreferences.getString("text_port", "192.168.0.1"));
+            editTextPort.setSummary(sharedPreferences.getString("text_port", "1234"));
         }
     }
 
@@ -54,9 +54,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         editTextPort = (EditTextPreference) findPreference("text_port");
 
         String ip = PreferenceManager.getDefaultSharedPreferences(this).getString("text_ip", "192.168.0.1");
-        int port = PreferenceManager.getDefaultSharedPreferences(this).getInt("text_port", 1234);
+        int port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("text_port", "1234"));
         editTextIp.setSummary(ip);
-        editTextPort.setSummary(port);
+        editTextPort.setSummary(""+port);
 
 
     }
