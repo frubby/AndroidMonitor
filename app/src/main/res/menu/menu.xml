@@ -10,5 +10,9 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="载入配置" />
-
+    <item
+        android:id="@+id/menu_version"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="注册信息" />
 </menu>

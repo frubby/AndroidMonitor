@@ -1,24 +1,33 @@
 package com.frw.monitor.net;
 
+import android.util.Log;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 /**
  * Created by yoho on 2016/11/15.
  */
 
 public class TcpLinkImpl implements TcpLink {
+    public final String TAG = "TcpLinkImpl";
     Socket socket = null;
     InputStream it;
 
     @Override
-    public boolean tcpConnect(String ip,int port) {
+    public boolean tcpConnect(String ip, int port) {
         try {
-            socket = new Socket(ip,port);
+            socket = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(ip, port);
+            socket.connect(socketAddress, 8000);
+            socket.setSoTimeout(5000);
             it = socket.getInputStream();
         } catch (IOException e) {
+
             return false;
         }
         if (socket.isConnected())
@@ -65,6 +74,7 @@ public class TcpLinkImpl implements TcpLink {
                 System.out.print(" " + Integer.toHexString(recvByte[k] & 0xFF));
             }
         } catch (IOException e) {
+            Log.e(TAG, e.toString());
             e.printStackTrace();
         }
         if (recvNum > 0) {

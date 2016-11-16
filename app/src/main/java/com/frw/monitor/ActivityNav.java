@@ -2,15 +2,18 @@ package com.frw.monitor;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,12 +43,16 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     public final static int DATA_STRUCT_REFRESH = 2;
     public final static int STRUCT_REFRESH = 3;
 
+    public final static int DISCONNECT = 4;
+    public final static int CONNECT = 5;
+
     public static final String TAG = "ActivityNav";
     public static final String DATABASE = "Database";
     private ListView listView;
 
     SharedPreferences sp;
     SharedPreferences.Editor editor;
+    private ImageView imageView;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -56,6 +63,12 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     Log.i("handler", "data refresh");
                     refreshDeviceList();
                     refreshArea();
+                    break;
+                case DISCONNECT:
+                    imageView.setImageResource(R.drawable.disconnect);
+                    break;
+                case CONNECT:
+                    imageView.setImageResource(R.drawable.connect);
                     break;
                 default:
                     break;
@@ -127,6 +140,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         sp = getSharedPreferences(DATABASE, Activity.MODE_PRIVATE);
         // 获取Editor对象
         editor = sp.edit();
+        imageView = (ImageView) findViewById(R.id.img_connect);
 
         if (sp.getString("data", "").equals("")) {
             Toast toast = Toast.makeText(this, "缺少配置文件", Toast.LENGTH_LONG);
@@ -134,7 +148,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         } else {
             String strData = sp.getString("data", "");
             Data data = JSON.parseObject(strData, Data.class);
-            Log.i(TAG,strData);
+            Log.i(TAG, strData);
             initStruct(data);
 
             //        initTree(DataMock.area);
@@ -242,6 +256,18 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                 });
                 break;
 
+            case R.id.menu_version:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("过期时间 : 2016/12/01 ");
+                builder.setTitle("注册信息");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
             default:
                 break;
         }
@@ -322,7 +348,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         layout.addView(tView.getView());
 
         // 存储
-        SampleApplication.initData( data);
+        SampleApplication.initData(data);
 
     }
 
