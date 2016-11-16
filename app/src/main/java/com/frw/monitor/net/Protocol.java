@@ -87,7 +87,7 @@ public class Protocol {
         int frame_len = 0;
         while (sum >= 12) {
             if (link.receiveData[ptr] == 0x68 && link.receiveData[ptr + 7] == 0x68 && link.receiveData[ptr + 9] != 0) {
-                frame_len = link.receiveData[ptr + 9] + 12;
+                frame_len = (int) (getLongData(ptr+9,1) + 12);
                 if (frame_len > sum || calcSum(ptr, frame_len - 2) != link.receiveData[ptr + frame_len - 2])
                     break;
 
@@ -103,22 +103,25 @@ public class Protocol {
         }
     }
 
-    private char calcSum(int ptr, int len) {
-        int sum = 0;
+    private byte calcSum(int ptr, int len) {
+        long sum = 0;
         for (int i = 0; i < len; ++i)
             sum += link.receiveData[ptr + i];
 
-        return (char) (sum & 0xFF);
+        return (byte) (sum & 0xFF);
     }
 
     private void dataPro(int ptr) {
+        int num = 0;
+
         ptr += 8;
-        switch ((int)link.receiveData[ptr]) {
-            case 0x81:
+        switch (link.receiveData[ptr]) {
+            case (byte) 0x81:
                 ptr += 1;
-                if (link.receiveData[ptr] % 26 != 0)
+                num = (int) getLongData(ptr, 1);
+                if (num % 26 != 0)
                     return;
-                int num = link.receiveData[ptr] / 26;
+                num /= 26;
                 ptr += 1;
 
                 data.num = num - 1;
@@ -131,11 +134,11 @@ public class Protocol {
                         data.address = getLongData(ptr, 6);
                         ptr += 6;
 
-                        data.Ia = getLongData(ptr, 4) / 1000;
+                        data.Ia = (float) getLongData(ptr, 4) / 1000;
                         ptr += 4;
-                        data.Ib = getLongData(ptr, 4) / 1000;
+                        data.Ib = (float) getLongData(ptr, 4) / 1000;
                         ptr += 4;
-                        data.Ic = getLongData(ptr, 4) / 1000;
+                        data.Ic = (float) getLongData(ptr, 4) / 1000;
                         ptr += 4;
                         float max = data.Ia > data.Ib ? data.Ia : data.Ib;
                         max = max > data.Ic ? max : data.Ic;
@@ -147,14 +150,15 @@ public class Protocol {
                         ptr += 4;
                         continue;
                     }
+
                     data.sdata[i - 1].address = getLongData(ptr, 6);
                     ptr += 6;
 
-                    data.sdata[i - 1].Ia = getLongData(ptr, 4) / 1000;
+                    data.sdata[i - 1].Ia = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i - 1].Ib = getLongData(ptr, 4) / 1000;
+                    data.sdata[i - 1].Ib = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i - 1].Ic = getLongData(ptr, 4) / 1000;
+                    data.sdata[i - 1].Ic = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
 
                     data.sdata[i - 1].num = (int) getLongData(ptr, 4);
@@ -195,10 +199,15 @@ public class Protocol {
     }
 
     private long getLongData(int ptr, int len) {
-        long sum = 0;
+        if (len > 8)
+            len = 8;
+
+        long sum = 0, temp = 0;
         int n = -1;
-        while (++n < len)
-            sum |= ((long) link.receiveData[ptr + n]) << (8 * n);
+        while (++n < len) {
+            temp = link.receiveData[ptr + n] < 0 ? 256 + link.receiveData[ptr + n] : link.receiveData[ptr + n];
+            sum |= temp << (8 * n);
+        }
 
         return sum;
     }

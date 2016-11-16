@@ -9,7 +9,7 @@ public interface TcpLink {
 	 * 连接服务端
 	 * @return 成功 true
 	 */
-	public boolean tcpConnect();
+	public boolean tcpConnect(String ip,int port);
 
 	/**
 	 * 关闭连接

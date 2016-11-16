@@ -11,15 +11,12 @@ import java.net.Socket;
 
 public class TcpLinkImpl implements TcpLink {
     Socket socket = null;
-
-    DataInputStream input;
     InputStream it;
 
     @Override
-    public boolean tcpConnect() {
+    public boolean tcpConnect(String ip,int port) {
         try {
-            socket = new Socket("172.16.6.29", 1234);
-            input = new DataInputStream(socket.getInputStream());
+            socket = new Socket(ip,port);
             it = socket.getInputStream();
         } catch (IOException e) {
             return false;
@@ -32,6 +29,15 @@ public class TcpLinkImpl implements TcpLink {
 
     @Override
     public boolean disconnected() {
+
+        if (it != null) {
+            try {
+                it.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (socket == null)
             return true;
         try {
@@ -51,32 +57,20 @@ public class TcpLinkImpl implements TcpLink {
     @Override
     public int tcpReceive(int num) {
 
-
-        int i = 0;
-//        for (i = 0; i < num; i++) {
-        char ch = 0;
-//            try {
-//                ch = input.readChar();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return 0;
-//            }
-//            System.out.print(" " + Integer.toHexString((int) ch));
         int recvNum = 0;
-        byte recvByte[] = new byte[8192];
+        byte recvByte[] = new byte[4096];
         try {
             recvNum = it.read(recvByte);
             for (int k = 0; k < recvNum; k++) {
-                System.out.print(" " + Integer.toHexString(recvByte[k]));
+                System.out.print(" " + Integer.toHexString(recvByte[k] & 0xFF));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        System.arraycopy(recvByte, 0, receiveData, 0, recvNum);
-//        }
-        System.out.println(" num  " + recvNum);
-
-        return i;
+        if (recvNum > 0) {
+            System.arraycopy(recvByte, 0, receiveData, 0, recvNum);
+            System.out.println("\n num  " + recvNum);
+        }
+        return recvNum;
     }
 }

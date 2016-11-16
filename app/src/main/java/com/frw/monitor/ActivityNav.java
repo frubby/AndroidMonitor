@@ -19,9 +19,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.frw.monitor.bean.Data;
 import com.frw.monitor.bean.SwitchData;
-import com.frw.monitor.common.EnumStats;
 import com.frw.monitor.dialog.FileChooserDialog;
-import com.frw.monitor.task.DataThread;
+import com.frw.monitor.net.DataThread;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -153,7 +152,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     protected void onResume() {
 
         dataThread = new DataThread(this, this.mHandler);
-        new Thread(dataThread).start();
+        dataThread.start();
         super.onResume();
         Log.i("test", "resume");
     }
@@ -161,7 +160,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     @Override
     protected void onPause() {
-        dataThread.isRun = false;
+        dataThread.stopThread();
         dataThread = null;
         super.onPause();
         Log.i("test", "pause");

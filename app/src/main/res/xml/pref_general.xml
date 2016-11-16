@@ -17,6 +17,7 @@
         android:title="刷新频率" />
 
     <EditTextPreference
+        android:id="@+id/setting_edit_ip"
         android:capitalize="words"
         android:defaultValue="192.168.0.1"
         android:inputType="textCapWords"
@@ -27,11 +28,10 @@
         android:title="TCP IP" />
 
     <EditTextPreference
-        android:capitalize="words"
+        android:id="@+id/setting_edit_port"
         android:defaultValue="8000"
-        android:inputType="textCapWords"
+        android:inputType="number"
         android:key="text_port"
-        android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="TCP 端口" />
