@@ -21,6 +21,8 @@ CE 56 00 00 B相22.222
 15 16 05 00 C相333.333
 03 00 00 00  动作次数 3
 F4 00 00 00  C相 优先级最低
+
+8E 16
 */
 
 import com.frw.monitor.bean.Data;
@@ -59,7 +61,7 @@ public class Protocol {
     private void stateProcess() {
         ++linkStateNum;
 
-        if(linkStateNum > 10)
+        if (linkStateNum > 10)
             init();
         else
             linkState = true;
@@ -69,7 +71,7 @@ public class Protocol {
         int sum = makeData();
 
         //sum += sendPoint;
-        if(sum > 0)
+        if (sum > 0)
             sendPoint = link.tcpSend(sum);
     }
 
@@ -83,15 +85,13 @@ public class Protocol {
 
         int ptr = 0;
         int frame_len = 0;
-        while(sum >= 12)
-        {
-            if(link.receiveData[ptr] == 0x68 && link.receiveData[ptr+7] == 0x68 && link.receiveData[ptr+9] != 0)
-            {
-                frame_len = link.receiveData[ptr+9] + 12;
-                if(frame_len > sum || calcSum(ptr,frame_len) != link.receiveData[ptr+frame_len-2])
+        while (sum >= 12) {
+            if (link.receiveData[ptr] == 0x68 && link.receiveData[ptr + 7] == 0x68 && link.receiveData[ptr + 9] != 0) {
+                frame_len = link.receiveData[ptr + 9] + 12;
+                if (frame_len > sum || calcSum(ptr, frame_len - 2) != link.receiveData[ptr + frame_len - 2])
                     break;
 
-                dataPro( ptr );
+                dataPro(ptr);
 
                 ptr += frame_len;
                 sum -= frame_len;
@@ -104,87 +104,90 @@ public class Protocol {
     }
 
     private char calcSum(int ptr, int len) {
-        char sum=0;
-        for(int i=0;i<len;++i)
-            sum += link.receiveData[ptr+i];
+        int sum = 0;
+        for (int i = 0; i < len; ++i)
+            sum += link.receiveData[ptr + i];
 
-        return sum;
+        return (char) (sum & 0xFF);
     }
 
     private void dataPro(int ptr) {
         ptr += 8;
-        switch(link.receiveData[ptr])
-        {
-            case 0x81 :  //mark
+        switch ((int)link.receiveData[ptr]) {
+            case 0x81:
                 ptr += 1;
-                if(link.receiveData[ptr] % 26 != 0)
+                if (link.receiveData[ptr] % 26 != 0)
                     return;
                 int num = link.receiveData[ptr] / 26;
                 ptr += 1;
 
                 data.num = num - 1;
-                if(data.num > 32)
+                if (data.num > 32)
                     return;
 
-                int temp=0;
-                for(int i=0;i<num;++i)
-                {
-                    if(i==0)
-                    {
-                        data.address = getLongData(ptr,6);
+                int temp = 0;
+                for (int i = 0; i < num; ++i) {
+                    if (i == 0) {
+                        data.address = getLongData(ptr, 6);
                         ptr += 6;
 
-                        data.Ia = getLongData(ptr,4) / 1000;
+                        data.Ia = getLongData(ptr, 4) / 1000;
                         ptr += 4;
-                        data.Ib = getLongData(ptr,4) / 1000;
+                        data.Ib = getLongData(ptr, 4) / 1000;
                         ptr += 4;
-                        data.Ic = getLongData(ptr,4) / 1000;
+                        data.Ic = getLongData(ptr, 4) / 1000;
                         ptr += 4;
-
                         float max = data.Ia > data.Ib ? data.Ia : data.Ib;
                         max = max > data.Ic ? max : data.Ic;
                         float min = data.Ia < data.Ib ? data.Ia : data.Ib;
                         min = min < data.Ic ? min : data.Ic;
-                        data.imbalance = (max - min) / min * 100;
-                    }
+                        data.imbalance = (max - min) / max * 100;
 
-                    data.sdata[i-1].address = getLongData(ptr,6);
+                        ptr += 4;
+                        ptr += 4;
+                        continue;
+                    }
+                    data.sdata[i - 1].address = getLongData(ptr, 6);
                     ptr += 6;
 
-                    data.sdata[i-1].Ia = getLongData(ptr,4) / 1000;
+                    data.sdata[i - 1].Ia = getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i-1].Ib = getLongData(ptr,4) / 1000;
+                    data.sdata[i - 1].Ib = getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i-1].Ic = getLongData(ptr,4) / 1000;
-                    ptr += 4;
-
-                    data.sdata[i-1].num = (int)getLongData(ptr,4);
+                    data.sdata[i - 1].Ic = getLongData(ptr, 4) / 1000;
                     ptr += 4;
 
-                    temp = (int)getLongData(ptr,4);
+                    data.sdata[i - 1].num = (int) getLongData(ptr, 4);
                     ptr += 4;
 
-                    switch(temp & 0x07) {
-                        case 0x00 :
-                            data.sdata[i-1].switchState = "断开";
+                    data.sdata[i - 1].load = 0;
+                    temp = (int) getLongData(ptr, 4);
+                    ptr += 4;
+                    switch (temp & 0x07) {
+                        case 0x00:
+                            data.sdata[i - 1].switchState = "断开";
                             break;
-                        case 0x01 :
-                            data.sdata[i-1].switchState = "A相";
+                        case 0x01:
+                            data.sdata[i - 1].switchState = "A相";
+                            data.sdata[i - 1].load = data.sdata[i - 1].Ia;
                             break;
-                        case 0x02 :
-                            data.sdata[i-1].switchState = "B相";
+                        case 0x02:
+                            data.sdata[i - 1].switchState = "B相";
+                            data.sdata[i - 1].load = data.sdata[i - 1].Ib;
                             break;
-                        case 0x04 :
-                            data.sdata[i-1].switchState = "C相";
+                        case 0x04:
+                            data.sdata[i - 1].switchState = "C相";
+                            data.sdata[i - 1].load = data.sdata[i - 1].Ic;
                             break;
-                        default :
-                            data.sdata[i-1].switchState = "无效";
+                        default:
+                            data.sdata[i - 1].switchState = "无效";
                             break;
                     }
                     int l = (temp & 0xF0) >> 4;//等具体解释
+                    data.sdata[i - 1].loadType = Integer.toString(l);
                 }
                 break;
-            default :
+            default:
                 break;
         }
 
@@ -192,10 +195,10 @@ public class Protocol {
     }
 
     private long getLongData(int ptr, int len) {
-        long sum =0;
+        long sum = 0;
         int n = -1;
-        while(++n < len)
-            sum |= ((long)link.receiveData[ptr+n]) << (8*n);
+        while (++n < len)
+            sum |= ((long) link.receiveData[ptr + n]) << (8 * n);
 
         return sum;
     }

@@ -1,5 +1,6 @@
 package com.frw.monitor.net;
 
+@Deprecated
 public class LinkPro implements TcpLink {
 
 	@Override

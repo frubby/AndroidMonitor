@@ -1,8 +1,8 @@
 package com.frw.monitor.net;
 
 public interface TcpLink {
-	public char[] sendData = new char[4096];
-	public char[] receiveData = new char[4096];
+	public byte[] sendData = new byte[4096];
+	public byte[] receiveData = new byte[4096];
 
 
 	/**

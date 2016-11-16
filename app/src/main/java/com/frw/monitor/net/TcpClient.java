@@ -25,19 +25,27 @@ public class TcpClient {
 //                String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
 //                out.writeUTF(str);
 
-
-            while (true) {
-                try {
-                    String ret = input.readUTF();
-                    Log.i("test", "result: " + ret);
-                    if (ret.equals("finish"))
+            char[] revDatas = new char[4096];
+            try {
+                int i = 0;
+                while (true) {
+                    char ret = input.readChar();
+                    revDatas[i++] = ret;
+//                        Log.i("test", "result: " + Integer.toHexString((int)ret));
+                    if (ret == 0x16)
                         break;
-                } catch (Exception e) {
-                    Log.e("test", e.getMessage());
                 }
+                int pos = i - 1;
+                System.out.println("\npos size : " + pos);
+                for (i = 10; i < pos - 10; i++) {
+                    if ((i - 10) % 26 == 0)
+                        System.out.println("");
+                    System.out.print(" " + Integer.toHexString((int) revDatas[i]));
+
+                }
+            } catch (Exception e) {
+                Log.e("test", e.getMessage());
             }
-            if (input != null)
-                input.close();
 
 
         } catch (IOException e) {

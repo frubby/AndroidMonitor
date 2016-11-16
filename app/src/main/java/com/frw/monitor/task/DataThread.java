@@ -28,6 +28,8 @@ public class DataThread extends Thread {
     public DataThread(Context context, Handler handler) {
         this.handler = handler;
         this.context = context;
+        tcpClient = new TcpClient();
+
     }
 
     @Override
@@ -52,7 +54,6 @@ public class DataThread extends Thread {
             Message msg = handler.obtainMessage(ActivityNav.DATA_REFRESH);
             handler.sendMessage(msg);
 
-            tcpClient = new TcpClient();
             tcpClient.getData();
             try {
                 Thread.sleep(1000);

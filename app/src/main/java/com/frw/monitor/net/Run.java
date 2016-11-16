@@ -1,10 +1,11 @@
 package com.frw.monitor.net;
 
+import com.alibaba.fastjson.JSON;
 import com.frw.monitor.bean.Data;
 
 public class Run {
     public Data data = new Data();//规约提供的数据
-    TcpLink link = new LinkPro();//换成你实际实现的类
+    TcpLink link = new TcpLinkImpl();//换成你实际实现的类
 
     int refreshTime = 1;//换成实际刷新时间
     boolean flag = true;//线程运行标志
@@ -26,6 +27,7 @@ public class Run {
 
             protocol.dataProcess();
             data = protocol.getData();
+            System.out.println(JSON.toJSONString(data, false));
 
             if (!protocol.getLinkState()) {
                 link.disconnected();
