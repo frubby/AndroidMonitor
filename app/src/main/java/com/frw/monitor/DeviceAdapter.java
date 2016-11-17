@@ -91,7 +91,7 @@ public class DeviceAdapter extends BaseAdapter {
         itemViews.ib.setText((String) data.get(position).get("ib"));
 
         itemViews.ic.setText((String) data.get(position).get("ic"));
-
+        itemViews.act.setText((String) data.get(position).get("actNum"));
         itemViews.type.setText( (String)data.get(position).get("type"));
 
         itemViews.state.setText( (String)data.get(position).get("state"));

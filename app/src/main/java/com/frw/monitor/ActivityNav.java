@@ -192,6 +192,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
             map.put("ia", "" + switchData[i].Ia);
             map.put("ib", "" + switchData[i].Ib);
             map.put("ic", "" + switchData[i].Ic);
+            map.put("actNum", "" + switchData[i].num);
 
             map.put("state", switchData[i].switchState);
             map.put("type", switchData[i].loadType);
