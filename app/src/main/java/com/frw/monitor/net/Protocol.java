@@ -26,6 +26,7 @@ F4 00 00 00  C相 优先级最低
 */
 
 import com.frw.monitor.bean.Data;
+import com.frw.monitor.bean.SwitchData;
 
 public class Protocol {
     private TcpLink link;
@@ -151,44 +152,45 @@ public class Protocol {
                         continue;
                     }
 
-                    data.sdata[i - 1].address = getLongData(ptr, 6);
+                    SwitchData switchData=data.sdata.get(i - 1);
+                    switchData.address = getLongData(ptr, 6);
                     ptr += 6;
 
-                    data.sdata[i - 1].Ia = (float) getLongData(ptr, 4) / 1000;
+                    switchData.Ia = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i - 1].Ib = (float) getLongData(ptr, 4) / 1000;
+                    switchData.Ib = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
-                    data.sdata[i - 1].Ic = (float) getLongData(ptr, 4) / 1000;
-                    ptr += 4;
-
-                    data.sdata[i - 1].num = (int) getLongData(ptr, 4);
+                    switchData.Ic = (float) getLongData(ptr, 4) / 1000;
                     ptr += 4;
 
-                    data.sdata[i - 1].load = 0;
+                    switchData.num = (int) getLongData(ptr, 4);
+                    ptr += 4;
+
+                    switchData.load = 0;
                     temp = (int) getLongData(ptr, 4);
                     ptr += 4;
                     switch (temp & 0x07) {
                         case 0x00:
-                            data.sdata[i - 1].switchState = "断开";
+                            switchData.switchState = "断开";
                             break;
                         case 0x01:
-                            data.sdata[i - 1].switchState = "A相";
-                            data.sdata[i - 1].load = data.sdata[i - 1].Ia;
+                            switchData.switchState = "A相";
+                            switchData.load = switchData.Ia;
                             break;
                         case 0x02:
-                            data.sdata[i - 1].switchState = "B相";
-                            data.sdata[i - 1].load = data.sdata[i - 1].Ib;
+                            switchData.switchState = "B相";
+                            switchData.load = switchData.Ib;
                             break;
                         case 0x04:
-                            data.sdata[i - 1].switchState = "C相";
-                            data.sdata[i - 1].load = data.sdata[i - 1].Ic;
+                            switchData.switchState = "C相";
+                            switchData.load = switchData.Ic;
                             break;
                         default:
-                            data.sdata[i - 1].switchState = "无效";
+                            switchData.switchState = "无效";
                             break;
                     }
                     int l = (temp & 0xF0) >> 4;//等具体解释
-                    data.sdata[i - 1].loadType = Integer.toString(l);
+                    switchData.loadType = Integer.toString(l);
                 }
                 break;
             default:

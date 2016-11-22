@@ -7,6 +7,9 @@ import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.frw.monitor.bean.Data;
 import com.frw.monitor.bean.SwitchData;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by fruwei on 16/11/8.
  */
@@ -32,15 +35,22 @@ public class SampleApplication extends Application {
         currentData.Ic = data.Ic;
         currentData.imbalance = data.imbalance;
 
-        for (int i = 0; i < currentData.num; i++) {
-            SwitchData newSwitch = findSwitchData(currentData.sdata[i], data.sdata);
+        Iterator<SwitchData> iterator=currentData.sdata.iterator();
+        while(iterator.hasNext()) {
+            SwitchData currentSwitchData=iterator.next();
+            SwitchData newSwitch = findSwitchData(currentSwitchData, data.sdata);
             if (newSwitch == null) {
-                Log.w(TAG, " id " + currentData.sdata[i].address + "no new val");
+                Log.w(TAG, " id " + currentSwitchData.address + "no new val");
+                iterator.remove();
                 continue;
             }
-            newSwitch.name = currentData.sdata[i].name;
-            currentData.sdata[i] = newSwitch;
-
+            currentSwitchData.num = newSwitch.num;
+            currentSwitchData.Ia=newSwitch.Ia;
+            currentSwitchData.Ib=newSwitch.Ib;
+            currentSwitchData.Ic=newSwitch.Ic;
+            currentSwitchData.load=newSwitch.load;
+            currentSwitchData.loadType=newSwitch.loadType;
+            currentSwitchData.switchState=newSwitch.switchState;
         }
         currentData = data;
     }
@@ -52,7 +62,7 @@ public class SampleApplication extends Application {
      * @param list
      * @return
      */
-    public static SwitchData findSwitchData(SwitchData find, SwitchData[] list) {
+    public static SwitchData findSwitchData(SwitchData find, List<SwitchData> list) {
         for (SwitchData switchData : list) {
             if (find.address == switchData.address) {
                 return switchData;

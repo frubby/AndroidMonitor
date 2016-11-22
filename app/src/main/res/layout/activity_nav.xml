@@ -37,6 +37,7 @@
                 android:paddingRight="40dp">
 
                 <TextView
+                    android:id="@+id/tx_area_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="台区信息"

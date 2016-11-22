@@ -35,18 +35,15 @@ public class DataMock {
         area.Ib = (random.nextInt(100) / 50.0f);
         area.Ic = (random.nextInt(100) / 50.0f);
         area.imbalance = (float) (random.nextInt(360));
-        SwitchData switchData[] = area.sdata;
         for (int i = 0; i < area.num; i++) {
-            SwitchData device = area.sdata[i];
+            SwitchData device = area.sdata.get(i);
             device.Ia = (random.nextInt(100) / 50.0f);
             device.Ib = (random.nextInt(100) / 50.0f);
             device.Ic = (random.nextInt(100) / 50.0f);
 
-
             device.load = (random.nextInt(100) / 50.0f);
             device.num = (random.nextInt(20));
             device.switchState = (EnumStats.values()[random.nextInt(3)].getText());
-
             device.loadType = (EnumLoadType.values()[random.nextInt(3)].getText());
         }
     }

@@ -184,18 +184,20 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     public List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Data data = SampleApplication.getData();
-        for (int i = 0; i < data.num; i++) {
-            SwitchData switchData[] = data.sdata;
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("id", "" + switchData[i].address);
-            map.put("name", switchData[i].name);
-            map.put("ia", "" + switchData[i].Ia);
-            map.put("ib", "" + switchData[i].Ib);
-            map.put("ic", "" + switchData[i].Ic);
-            map.put("actNum", "" + switchData[i].num);
 
-            map.put("state", switchData[i].switchState);
-            map.put("type", switchData[i].loadType);
+        for (int i = 0; i < data.num; i++) {
+            SwitchData switchData=data.sdata.get(i);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("id", "" + switchData.address);
+            map.put("name", switchData.name);
+            map.put("ia", "" + switchData.Ia);
+            map.put("ib", "" + switchData.Ib);
+            map.put("ic", "" + switchData.Ic);
+            map.put("actNum", "" + switchData.num);
+            map.put("load", switchData.load);
+
+            map.put("state", switchData.switchState);
+            map.put("type", switchData.loadType);
 
             list.add(map);
         }
@@ -259,8 +261,8 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
             case R.id.menu_version:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("过期时间 : 2016/12/01 ");
-                builder.setTitle("注册信息");
+                builder.setMessage("监控.");
+                builder.setTitle("信息");
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -303,7 +305,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     SwitchData switchData = new SwitchData();
                     switchData.address = Long.parseLong(split[0], 16);
                     switchData.name = split[1];
-                    data.sdata[num - 1] = switchData;
+                    data.sdata.add( switchData);
                 }
                 num++;
             }
@@ -321,6 +323,9 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
     public void initStruct(Data data) {
+        TextView txArea=(TextView) this.findViewById(R.id.tx_area_title);
+        txArea.setText(data.name);
+
         TreeNode root;
 
         root = TreeNode.root();
@@ -332,7 +337,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
 
         for (int i = 0; i < data.num; i++) {
-            SwitchData switchData = data.sdata[i];
+            SwitchData switchData = data.sdata.get(i);
             Level2Holder.IconTreeItem treeItem = new Level2Holder.IconTreeItem();
             treeItem.text = switchData.name;
             TreeNode nodeDevice = new TreeNode(treeItem).setViewHolder(new Level2Holder(this));
