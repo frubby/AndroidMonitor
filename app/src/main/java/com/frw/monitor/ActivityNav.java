@@ -185,8 +185,8 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Data data = SampleApplication.getData();
 
-        for (int i = 0; i < data.num; i++) {
-            SwitchData switchData=data.sdata.get(i);
+        for (int i = 0; i < data.sdata.size(); i++) {
+            SwitchData switchData = data.sdata.get(i);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("id", "" + switchData.address);
             map.put("name", switchData.name);
@@ -298,15 +298,17 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     Log.w(TAG, "error line. " + line);
                     continue;
                 }
+                long address = Long.parseLong(split[0], 16);
                 if (num == 0) {
-                    data.address = Long.parseLong(split[0], 16);
+                    data.address = address;
                     data.name = split[1];
                 } else {
                     SwitchData switchData = new SwitchData();
-                    switchData.address = Long.parseLong(split[0], 16);
+                    switchData.address = address;
                     switchData.name = split[1];
-                    data.sdata.add( switchData);
+                    data.sdata.add(switchData);
                 }
+                data.config.put(address, split[1]);
                 num++;
             }
             data.num = num - 1;
@@ -323,7 +325,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
     public void initStruct(Data data) {
-        TextView txArea=(TextView) this.findViewById(R.id.tx_area_title);
+        TextView txArea = (TextView) this.findViewById(R.id.tx_area_title);
         txArea.setText(data.name);
 
         TreeNode root;

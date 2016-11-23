@@ -35,24 +35,29 @@ public class SampleApplication extends Application {
         currentData.Ic = data.Ic;
         currentData.imbalance = data.imbalance;
 
-        Iterator<SwitchData> iterator=currentData.sdata.iterator();
-        while(iterator.hasNext()) {
-            SwitchData currentSwitchData=iterator.next();
-            SwitchData newSwitch = findSwitchData(currentSwitchData, data.sdata);
-            if (newSwitch == null) {
-                Log.w(TAG, " id " + currentSwitchData.address + "no new val");
-                iterator.remove();
-                continue;
-            }
-            currentSwitchData.num = newSwitch.num;
-            currentSwitchData.Ia=newSwitch.Ia;
-            currentSwitchData.Ib=newSwitch.Ib;
-            currentSwitchData.Ic=newSwitch.Ic;
-            currentSwitchData.load=newSwitch.load;
-            currentSwitchData.loadType=newSwitch.loadType;
-            currentSwitchData.switchState=newSwitch.switchState;
+
+        currentData.sdata.clear();
+
+        Iterator<SwitchData> iterator = data.sdata.iterator();
+        while (iterator.hasNext()) {
+            SwitchData currentSwitchData = iterator.next();
+            SwitchData showData = new SwitchData();
+
+            showData.address = currentSwitchData.address;
+            if (currentData.config.containsKey(showData.address))
+                showData.name = currentData.config.get(showData.address);
+            else
+                showData.name = "未配置";
+
+            showData.num = currentSwitchData.num;
+            showData.Ia = currentSwitchData.Ia;
+            showData.Ib = currentSwitchData.Ib;
+            showData.Ic = currentSwitchData.Ic;
+            showData.load = currentSwitchData.load;
+            showData.loadType = currentSwitchData.loadType;
+            showData.switchState = currentSwitchData.switchState;
+            currentData.sdata.add(showData);
         }
-        currentData = data;
     }
 
     /**

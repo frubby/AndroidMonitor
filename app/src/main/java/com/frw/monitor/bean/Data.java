@@ -1,7 +1,9 @@
 package com.frw.monitor.bean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Data {
     public long address;
@@ -13,13 +15,11 @@ public class Data {
     public float imbalance;//三相不平衡度
 
     public int num;//有效开关个数
-    public List<SwitchData> sdata = new ArrayList<SwitchData>(32);
+    public List<SwitchData> sdata=new ArrayList<SwitchData>();
 
+    public Map<Long, String> config = new HashMap<Long, String>();
 
     public Data() {
-        for (int i = 0; i < 32; i++) {
-            sdata.add(new SwitchData());
-        }
     }
 }
 
