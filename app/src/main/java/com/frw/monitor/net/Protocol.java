@@ -130,6 +130,7 @@ public class Protocol {
                     return;
 
                 int temp = 0;
+                data.sdata.clear();
                 for (int i = 0; i < num; ++i) {
                     if (i == 0) {
                         data.address = getLongData(ptr, 6);
@@ -152,7 +153,7 @@ public class Protocol {
                         continue;
                     }
 
-                    SwitchData switchData=data.sdata.get(i - 1);
+                    SwitchData switchData=new SwitchData();
                     switchData.address = getLongData(ptr, 6);
                     ptr += 6;
 
@@ -191,6 +192,8 @@ public class Protocol {
                     }
                     int l = (temp & 0xF0) >> 4;//等具体解释
                     switchData.loadType = Integer.toString(l);
+
+                    data.sdata.add(switchData);
                 }
                 break;
             default:
