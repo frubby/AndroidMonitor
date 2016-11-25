@@ -28,8 +28,13 @@ public class SampleApplication extends Application {
     public synchronized static void refreshData(Data data) {
         if (currentData == null)
             return;
-        if (currentData.address != data.address)
-            return;
+//        if (currentData.address != data.address)
+//            return;
+         if (currentData.config.containsKey(data.address))
+             currentData.name = currentData.config.get(data.address);
+        else
+             currentData.name = "地址:"+data.address+"未配置";
+
         currentData.Ia = data.Ia;
         currentData.Ib = data.Ib;
         currentData.Ic = data.Ic;

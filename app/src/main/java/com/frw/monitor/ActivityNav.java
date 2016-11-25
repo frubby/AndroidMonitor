@@ -115,10 +115,12 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         TextView tvAreaIa = (TextView) this.findViewById(R.id.area_ia);
         TextView tvAreaIb = (TextView) this.findViewById(R.id.area_ib);
         TextView tvAreaIc = (TextView) this.findViewById(R.id.area_ic);
+        TextView tvAreaName  = (TextView) this.findViewById(R.id.tx_area_title);
         TextView tvAreaLoadDegree = (TextView) this.findViewById(R.id.area_load_degree);
         tvAreaIa.setText("" + area.Ia);
         tvAreaIb.setText("" + area.Ib);
         tvAreaIc.setText("" + area.Ic);
+        tvAreaName.setText(area.name);
         tvAreaLoadDegree.setText("" + area.imbalance);
     }
 
@@ -299,19 +301,19 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     continue;
                 }
                 long address = Long.parseLong(split[0], 16);
-                if (num == 0) {
-                    data.address = address;
-                    data.name = split[1];
-                } else {
-                    SwitchData switchData = new SwitchData();
-                    switchData.address = address;
-                    switchData.name = split[1];
-                    data.sdata.add(switchData);
-                }
+//                if (num == 0) {
+//                    data.address = address;
+//                    data.name = split[1];
+//                } else {
+//                    SwitchData switchData = new SwitchData();
+//                    switchData.address = address;
+//                    switchData.name = split[1];
+//                    data.sdata.add(switchData);
+//                }
                 data.config.put(address, split[1]);
                 num++;
             }
-            data.num = num - 1;
+            data.num = 0;
 
             return data;
         } catch (FileNotFoundException e) {
