@@ -1,14 +1,14 @@
-package com.frw.monitor.common;
+package com.monitor.common;
 
-import com.frw.monitor.bean.Data;
-import com.frw.monitor.bean.SwitchData;
+import com.monitor.bean.Data;
+import com.monitor.bean.SwitchData;
 
 import java.util.Random;
 
 /**
- * Created by fruwei on 2016/11/9.
+ * 测试数据模拟
  */
-
+@Deprecated
 public class DataMock {
 
 

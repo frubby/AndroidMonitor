@@ -17,7 +17,7 @@
  *  along with aFileDialog. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.frw.monitor.dialog.view;
+package com.monitor.dialog.view;
 
 import java.io.File;
 import java.util.LinkedList;

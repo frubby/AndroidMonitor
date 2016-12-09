@@ -17,7 +17,7 @@
  *  along with aFileDialog. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.frw.monitor.dialog;
+package com.monitor.dialog;
 
 import android.content.Context;
 import android.widget.LinearLayout;

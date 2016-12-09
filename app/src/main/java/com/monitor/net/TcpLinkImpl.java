@@ -1,8 +1,7 @@
-package com.frw.monitor.net;
+package com.monitor.net;
 
 import android.util.Log;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;

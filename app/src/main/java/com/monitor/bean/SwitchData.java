@@ -1,4 +1,4 @@
-package com.frw.monitor.bean;
+package com.monitor.bean;
 
 public class SwitchData {
 	public long address;

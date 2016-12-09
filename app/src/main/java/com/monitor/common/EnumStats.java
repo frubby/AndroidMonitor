@@ -1,9 +1,8 @@
-package com.frw.monitor.common;
+package com.monitor.common;
 
 /**
- * Created by fruwei on 16/11/8.
+ * 状态枚举
  */
-
 public enum EnumStats {
     UNKNOW(-1, "无效"),
     NOCONN(0, "断开"),

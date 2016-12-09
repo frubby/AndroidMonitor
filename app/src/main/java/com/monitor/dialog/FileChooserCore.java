@@ -17,7 +17,7 @@
  *  along with aFileDialog. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.frw.monitor.dialog;
+package com.monitor.dialog;
 
 import java.io.*;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.frw.monitor.R;
-import com.frw.monitor.dialog.view.FileItem;
+import com.monitor.dialog.view.FileItem;
 
 /**
  * This class implements the common features of a file chooser.

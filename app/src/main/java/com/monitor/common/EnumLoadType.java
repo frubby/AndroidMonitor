@@ -1,7 +1,7 @@
-package com.frw.monitor.common;
+package com.monitor.common;
 
 /**
- * Created by fruwei on 16/11/8.
+ * 负载类型枚举
  */
 
 public enum EnumLoadType {

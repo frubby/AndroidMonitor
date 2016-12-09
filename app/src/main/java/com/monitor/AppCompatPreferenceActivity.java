@@ -1,4 +1,4 @@
-package com.frw.monitor;
+package com.monitor;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

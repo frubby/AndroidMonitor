@@ -1,8 +1,5 @@
-package com.frw.monitor.common;
+package com.monitor.common;
 
-/**
- * Created by yoho on 2016/11/11.
- */
 
 public class ConfigUtil {
 

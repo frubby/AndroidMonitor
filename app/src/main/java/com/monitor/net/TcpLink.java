@@ -1,4 +1,4 @@
-package com.frw.monitor.net;
+package com.monitor.net;
 
 public interface TcpLink {
 	public byte[] sendData = new byte[4096];

@@ -1,17 +1,16 @@
-package com.frw.monitor;
+package com.monitor;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.beardedhen.androidbootstrap.TypefaceProvider;
-import com.frw.monitor.bean.Data;
-import com.frw.monitor.bean.SwitchData;
+import com.monitor.bean.Data;
+import com.monitor.bean.SwitchData;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by fruwei on 16/11/8.
+ * 全局属性
  */
 
 public class SampleApplication extends Application {

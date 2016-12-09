@@ -1,4 +1,4 @@
-package com.frw.monitor;
+package com.monitor;
 
 
 import android.content.Context;
@@ -10,15 +10,12 @@ import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.AwesomeTextView;
 import com.beardedhen.androidbootstrap.BootstrapLabel;
-import com.frw.monitor.common.EnumLoadType;
-import com.frw.monitor.common.EnumStats;
+import com.frw.monitor.R;
 
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by fruwei on 16/11/7.
- */
+
 
 public class DeviceAdapter extends BaseAdapter {
 

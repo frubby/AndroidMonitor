@@ -1,4 +1,4 @@
-package com.frw.monitor.net;
+package com.monitor.net;
 
 import android.content.Context;
 import android.os.Handler;
@@ -7,10 +7,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.frw.monitor.ActivityNav;
-import com.frw.monitor.SampleApplication;
-import com.frw.monitor.bean.Data;
+import com.monitor.ActivityNav;
+import com.monitor.SampleApplication;
+import com.monitor.bean.Data;
 
+/**
+ * 获取数据线程
+ */
 public class DataThread extends Thread {
     public static final String TAG = "DataThread";
     Context context;

@@ -17,11 +17,10 @@
  *  along with aFileDialog. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.frw.monitor.dialog;
+package com.monitor.dialog;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

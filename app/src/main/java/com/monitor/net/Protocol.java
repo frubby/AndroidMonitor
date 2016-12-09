@@ -1,4 +1,4 @@
-package com.frw.monitor.net;
+package com.monitor.net;
 
 /*
 68 01 00 00 00 00 00 68 81 4E
@@ -25,8 +25,8 @@ F4 00 00 00  C相 优先级最低
 8E 16
 */
 
-import com.frw.monitor.bean.Data;
-import com.frw.monitor.bean.SwitchData;
+import com.monitor.bean.Data;
+import com.monitor.bean.SwitchData;
 
 public class Protocol {
     private TcpLink link;

@@ -1,4 +1,4 @@
-package com.frw.monitor.bean;
+package com.monitor.bean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

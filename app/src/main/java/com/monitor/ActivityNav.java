@@ -1,4 +1,4 @@
-package com.frw.monitor;
+package com.monitor;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -20,10 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.frw.monitor.bean.Data;
-import com.frw.monitor.bean.SwitchData;
-import com.frw.monitor.dialog.FileChooserDialog;
-import com.frw.monitor.net.DataThread;
+import com.frw.monitor.R;
+import com.monitor.bean.Data;
+import com.monitor.bean.SwitchData;
+import com.monitor.dialog.FileChooserDialog;
+import com.monitor.net.DataThread;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -153,7 +154,6 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
             Log.i(TAG, strData);
             initStruct(data);
 
-            //        initTree(DataMock.area);
             list = getData();
             listView = (ListView) findViewById(R.id.id_lv);
             deviceAdapter = new DeviceAdapter(this, list);
