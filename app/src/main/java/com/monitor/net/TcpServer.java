@@ -79,12 +79,12 @@ public class TcpServer implements Runnable {
             try {
                 //                    clientSocket.setKeepAlive(true);
                 InputStream in = clientSocket.getInputStream();
-//                while (flag && clientSocket.isConnected()) {
-//                    try {
-//                        Thread.sleep(1000);//等待时间
-//                    } catch (InterruptedException e1) {
-//                        e1.printStackTrace();
-//                    }
+                while (flag && clientSocket.isConnected()) {
+                    try {
+                        Thread.sleep(200);//等待时间
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
 
                     System.out.println("服务器端接受请求");
                     Log.i(TAG, "read input...");
@@ -119,7 +119,7 @@ public class TcpServer implements Runnable {
                         Toast.makeText(context, "data parse null ", Toast.LENGTH_SHORT).show();
                     }
 
-//                }
+                }
 
 
             } catch (Exception e) {
@@ -130,6 +130,7 @@ public class TcpServer implements Runnable {
                         clientSocket.close();
                     } catch (IOException e1) {
                         e.printStackTrace();
+                        Toast.makeText(context, "Server: Error" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "Server: Error" + e.getMessage());
                     }
                 }
