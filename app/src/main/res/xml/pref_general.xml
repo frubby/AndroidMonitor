@@ -16,7 +16,15 @@
         android:positiveButtonText="@null"
         android:title="刷新频率" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="client_switch"
+        android:summary="客户端模式"
+        android:title="客户端服务端模式" />
+
+
     <EditTextPreference
+        android:dependency="client_switch"
         android:id="@+id/setting_edit_ip"
         android:capitalize="words"
         android:defaultValue="192.168.0.1"

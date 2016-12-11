@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.monitor.bean.Data;
 import com.monitor.bean.SwitchData;
 import com.monitor.dialog.FileChooserDialog;
 import com.monitor.net.DataThread;
+import com.monitor.net.TcpServer;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 
@@ -55,6 +57,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     SharedPreferences.Editor editor;
     private ImageView imageView;
 
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,6 +83,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     DataThread dataThread;
 
+    TcpServer tcpServer;
 
     private void initTree(Data area) {
         TreeNode root;
@@ -163,12 +167,22 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     }
 
+    private boolean isClientMode(){
+        boolean isClient = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("client_switch", false);
+
+        return isClient;
+    }
 
     @Override
     protected void onResume() {
 
-        dataThread = new DataThread(this, this.mHandler);
-        dataThread.start();
+        if(isClientMode()) {
+            dataThread = new DataThread(this, this.mHandler);
+            dataThread.start();
+        }else{
+              tcpServer=new TcpServer(this,this.mHandler);
+            tcpServer.start();
+        }
         super.onResume();
         Log.i("test", "resume");
     }
@@ -176,8 +190,12 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     @Override
     protected void onPause() {
-        dataThread.stopThread();
-        dataThread = null;
+        if(isClientMode()) {
+            dataThread.stopThread();
+            dataThread = null;
+        }else{
+            tcpServer.stop();
+        }
         super.onPause();
         Log.i("test", "pause");
 
