@@ -120,7 +120,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         TextView tvAreaIa = (TextView) this.findViewById(R.id.area_ia);
         TextView tvAreaIb = (TextView) this.findViewById(R.id.area_ib);
         TextView tvAreaIc = (TextView) this.findViewById(R.id.area_ic);
-        TextView tvAreaName  = (TextView) this.findViewById(R.id.tx_area_title);
+        TextView tvAreaName = (TextView) this.findViewById(R.id.tx_area_title);
         TextView tvAreaLoadDegree = (TextView) this.findViewById(R.id.area_load_degree);
         tvAreaIa.setText("" + area.Ia);
         tvAreaIb.setText("" + area.Ib);
@@ -148,26 +148,29 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         // 获取Editor对象
         editor = sp.edit();
         imageView = (ImageView) findViewById(R.id.img_connect);
-
+        Data data;
         if (sp.getString("data", "").equals("")) {
             Toast toast = Toast.makeText(this, "缺少配置文件", Toast.LENGTH_LONG);
             toast.show();
+            data = new Data();
+
         } else {
             String strData = sp.getString("data", "");
-            Data data = JSON.parseObject(strData, Data.class);
+            data = JSON.parseObject(strData, Data.class);
             Log.i(TAG, strData);
-            initStruct(data);
 
-            list = getData();
-            listView = (ListView) findViewById(R.id.id_lv);
-            deviceAdapter = new DeviceAdapter(this, list);
-            listView.setAdapter(deviceAdapter);
+
         }
+        initStruct(data);
 
+        list = getData();
+        listView = (ListView) findViewById(R.id.id_lv);
+        deviceAdapter = new DeviceAdapter(this, list);
+        listView.setAdapter(deviceAdapter);
 
     }
 
-    private boolean isClientMode(){
+    private boolean isClientMode() {
         boolean isClient = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("client_switch", false);
 
         return isClient;
@@ -176,11 +179,11 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     @Override
     protected void onResume() {
 
-        if(isClientMode()) {
+        if (isClientMode()) {
             dataThread = new DataThread(this, this.mHandler);
             dataThread.start();
-        }else{
-              tcpServer=new TcpServer(this,this.mHandler);
+        } else {
+            tcpServer = new TcpServer(this, this.mHandler);
             tcpServer.start();
         }
         super.onResume();
@@ -190,10 +193,10 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     @Override
     protected void onPause() {
-        if(isClientMode()) {
+        if (isClientMode()) {
             dataThread.stopThread();
             dataThread = null;
-        }else{
+        } else {
             tcpServer.stop();
         }
         super.onPause();
@@ -205,6 +208,9 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Data data = SampleApplication.getData();
 
+        if (data == null) {
+            return list;
+        }
         for (int i = 0; i < data.sdata.size(); i++) {
             SwitchData switchData = data.sdata.get(i);
             Map<String, Object> map = new HashMap<String, Object>();
