@@ -1,6 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:enabled="false"
         android:defaultValue="true"
         android:key="refresh_switch"
         android:summary="自动刷新参数值"
@@ -17,6 +18,7 @@
         android:title="刷新频率" />
 
     <SwitchPreference
+        android:enabled="false"
         android:defaultValue="false"
         android:key="client_switch"
         android:summary="客户端模式"
