@@ -21,12 +21,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.i("test", "time "+System.currentTimeMillis()/1000);
-                if (System.currentTimeMillis() / 1000 > 1496246400) {
-                    Toast toast = Toast.makeText(LoginActivity.this, "已过期.", Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
+//                Log.i("test", "time "+System.currentTimeMillis()/1000);
+//                if (System.currentTimeMillis() / 1000 > 1496246400) {
+//                    Toast toast = Toast.makeText(LoginActivity.this, "已过期.", Toast.LENGTH_LONG);
+//                    toast.show();
+//                    return;
+//                }
 
                 Intent it = new Intent();
                 it.setClass(LoginActivity.this, ActivityNav.class);
