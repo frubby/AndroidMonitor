@@ -25,7 +25,6 @@ import com.frw.monitor.R;
 import com.monitor.bean.Data;
 import com.monitor.bean.SwitchData;
 import com.monitor.dialog.FileChooserDialog;
-import com.monitor.net.DataThread;
 import com.monitor.net.TcpServer;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
@@ -81,7 +80,6 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         }
     };
 
-    DataThread dataThread;
 
     TcpServer tcpServer;
 
@@ -179,13 +177,8 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     @Override
     protected void onResume() {
 
-        if (isClientMode()) {
-            dataThread = new DataThread(this, this.mHandler);
-            dataThread.start();
-        } else {
-            tcpServer = new TcpServer(this, this.mHandler);
-            tcpServer.start();
-        }
+        tcpServer = new TcpServer(this, this.mHandler);
+        tcpServer.start();
         super.onResume();
         Log.i("test", "resume");
     }
@@ -193,12 +186,9 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     @Override
     protected void onPause() {
-        if (isClientMode()) {
-            dataThread.stopThread();
-            dataThread = null;
-        } else {
-            tcpServer.stop();
-        }
+
+        tcpServer.stop();
+
         super.onPause();
         Log.i("test", "pause");
 

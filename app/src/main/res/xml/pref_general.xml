@@ -1,6 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:visibility="gone"
         android:enabled="false"
         android:defaultValue="true"
         android:key="refresh_switch"
@@ -8,6 +9,7 @@
         android:title="自动刷新" />
 
     <ListPreference
+        android:visibility="gone"
         android:defaultValue="-1"
         android:dependency="refresh_switch"
         android:entries="@array/pref_sync_frequency_titles"
@@ -18,6 +20,7 @@
         android:title="刷新频率" />
 
     <SwitchPreference
+        android:visibility="gone"
         android:enabled="false"
         android:defaultValue="false"
         android:key="client_switch"
@@ -26,6 +29,7 @@
 
 
     <EditTextPreference
+        android:visibility="gone"
         android:dependency="client_switch"
         android:id="@+id/setting_edit_ip"
         android:capitalize="words"
