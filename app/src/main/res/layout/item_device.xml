@@ -61,11 +61,11 @@
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/item_device_load_ia"
 
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:background="#FF0000"
-                    android:paddingLeft="5px"
-                    android:paddingRight="5px"
+                    android:paddingLeft="1px"
+                    android:paddingRight="1px"
                     android:textColor="#FFFFFF"
                     app:bootstrapBrand="info"
                     android:text="12"
@@ -73,11 +73,11 @@
 
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/item_device_load_ib"
-                    android:layout_width="40dp"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:paddingLeft="5px"
-                    android:paddingRight="5px"
+                    android:paddingLeft="1px"
+                    android:paddingRight="1px"
                     android:textColor="#FFFFFF"
                     android:background="#00FF00"
                     android:text="13"
@@ -85,9 +85,9 @@
 
                 <com.beardedhen.androidbootstrap.AwesomeTextView
                     android:id="@+id/item_device_load_ic"
-                    android:layout_width="40dp"
-                    android:paddingLeft="5px"
-                    android:paddingRight="5px"
+                    android:layout_width="50dp"
+                    android:paddingLeft="1px"
+                    android:paddingRight="1px"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
                     android:textColor="#FFFFFF"

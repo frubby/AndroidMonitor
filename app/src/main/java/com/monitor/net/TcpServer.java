@@ -36,6 +36,9 @@ public class TcpServer implements Runnable {
 
     ServerSocket serverSocket;
 
+    //0 refresh  1 append
+    int state = 0;
+
     String ip;
     int port;
 
@@ -196,6 +199,11 @@ public class TcpServer implements Runnable {
     private void dataPro(int ptr) {
         int num = 0;
 
+
+        int mark = receiveData[ptr + 4];
+
+
+
         ptr += 8;
         switch (receiveData[ptr]) {
             case (byte) 0x81:
@@ -210,28 +218,32 @@ public class TcpServer implements Runnable {
                 if (data.num > 32)
                     return;
 
+                if(state==0) {   //第一次添加
+                    data.sdata.clear();
+                }
                 int temp = 0;
-                data.sdata.clear();
                 for (int i = 0; i < num; ++i) {
-                    if (i == 0) {
-                        data.address = getLongData(ptr, 6);
-                        ptr += 6;
+                    if(state==0) {   //第一次添加
+                        if (i == 0) {
+                            data.address = getLongData(ptr, 6);
+                            ptr += 6;
 
-                        data.Ia = (float) getLongData(ptr, 4) / 1000;
-                        ptr += 4;
-                        data.Ib = (float) getLongData(ptr, 4) / 1000;
-                        ptr += 4;
-                        data.Ic = (float) getLongData(ptr, 4) / 1000;
-                        ptr += 4;
-                        float max = data.Ia > data.Ib ? data.Ia : data.Ib;
-                        max = max > data.Ic ? max : data.Ic;
-                        float min = data.Ia < data.Ib ? data.Ia : data.Ib;
-                        min = min < data.Ic ? min : data.Ic;
-                        data.imbalance = (max - min) / max * 100;
+                            data.Ia = (float) getLongData(ptr, 4) / 1000;
+                            ptr += 4;
+                            data.Ib = (float) getLongData(ptr, 4) / 1000;
+                            ptr += 4;
+                            data.Ic = (float) getLongData(ptr, 4) / 1000;
+                            ptr += 4;
+                            float max = data.Ia > data.Ib ? data.Ia : data.Ib;
+                            max = max > data.Ic ? max : data.Ic;
+                            float min = data.Ia < data.Ib ? data.Ia : data.Ib;
+                            min = min < data.Ic ? min : data.Ic;
+                            data.imbalance = (max - min) / max * 100;
 
-                        ptr += 4;
-                        ptr += 4;
-                        continue;
+                            ptr += 4;
+                            ptr += 4;
+                            continue;
+                        }
                     }
 
                     SwitchData switchData = new SwitchData();
@@ -279,6 +291,13 @@ public class TcpServer implements Runnable {
                 break;
             default:
                 break;
+        }
+
+
+        if (mark == 1) {
+            state = 1;
+        } else {  //后续没了  state置为开始
+            state = 0;
         }
 
     }
