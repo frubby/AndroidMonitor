@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener {
+public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener, AdapterView.OnItemClickListener {
 
     public final static int DATA_REFRESH = 1;
     public final static int DATA_STRUCT_REFRESH = 2;
@@ -167,6 +169,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         listView = (ListView) findViewById(R.id.id_lv);
         deviceAdapter = new DeviceAdapter(this, list);
         listView.setAdapter(deviceAdapter);
+        listView.setOnItemClickListener(this);
 
     }
 
@@ -387,4 +390,44 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        Map<String, Object> item = (Map<String, Object>) listView.getItemAtPosition(i);
+        Log.i("onclick", item.get("id").toString());
+        dialog();
+    }
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setSingleChoiceItems(new String[]{"断开", "A相", "B相", "C相"}, 0, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }
+        );
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                }
+
+        );
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+
+        );
+        builder.create().show();
+    }
 }
