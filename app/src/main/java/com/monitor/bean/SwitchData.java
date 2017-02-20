@@ -1,7 +1,7 @@
 package com.monitor.bean;
 
 public class SwitchData {
-	public long address;
+	public long address=0;
 	public String name;
 
 	public float Ia;

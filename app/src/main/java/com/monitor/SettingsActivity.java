@@ -1,7 +1,12 @@
 package com.monitor;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
@@ -41,11 +46,37 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
         String ip = PreferenceManager.getDefaultSharedPreferences(this).getString("text_ip", "192.168.0.1");
         int port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("text_port", "1234"));
-        editTextIp.setSummary(ip);
-        editTextPort.setSummary(""+port);
+        editTextIp.setSummary(getIPAddress(this));
+        editTextPort.setSummary("" + port);
 
 
     }
 
+    public static String getIPAddress(Context context) {
+        NetworkInfo info = ((ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        if (info != null && info.isConnected()) {
+            if (info.getType() == ConnectivityManager.TYPE_WIFI) {//当前使用无线网络
+                WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                String ipAddress = intIP2StringIP(wifiInfo.getIpAddress());//得到IPV4地址
+                return ipAddress;
+            }
+        }
+        return "0.0.0.0";
 
+    }
+
+    /**
+     * 将得到的int类型的IP转换为String类型
+     *
+     * @param ip
+     * @return
+     */
+    public static String intIP2StringIP(int ip) {
+        return (ip & 0xFF) + "." +
+                ((ip >> 8) & 0xFF) + "." +
+                ((ip >> 16) & 0xFF) + "." +
+                (ip >> 24 & 0xFF);
+    }
 }

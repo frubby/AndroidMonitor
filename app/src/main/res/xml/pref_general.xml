@@ -22,24 +22,25 @@
     <SwitchPreference
         android:visibility="gone"
         android:enabled="false"
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="client_switch"
-        android:summary="客户端模式"
-        android:title="客户端服务端模式" />
+        android:summary="服务端模式"
+        android:title="服务端模式" />
 
+    <!--android:visibility="gone"-->
 
     <EditTextPreference
-        android:visibility="gone"
         android:dependency="client_switch"
         android:id="@+id/setting_edit_ip"
         android:capitalize="words"
         android:defaultValue="192.168.0.1"
+        android:enabled="false"
         android:inputType="textCapWords"
         android:key="text_ip"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="TCP IP" />
+        android:title="本机Wifi IP" />
 
     <EditTextPreference
         android:id="@+id/setting_edit_port"
