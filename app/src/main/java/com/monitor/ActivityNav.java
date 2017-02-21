@@ -448,6 +448,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        tcpServer.sendCmd(cmdSwitchData);
                         dialog.dismiss();
                     }
 
