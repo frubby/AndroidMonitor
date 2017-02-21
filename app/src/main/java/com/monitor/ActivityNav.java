@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener {
+public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeClickListener, AdapterView.OnItemClickListener {
 
     public final static int DATA_REFRESH = 1;
     public final static int DATA_STRUCT_REFRESH = 2;
@@ -165,6 +165,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         listView = (ListView) findViewById(R.id.id_lv);
         deviceAdapter = new DeviceAdapter(this, list);
         listView.setAdapter(deviceAdapter);
+        listView.setOnItemClickListener(this);
 
     }
 
@@ -204,12 +205,12 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
         for (int i = 0; i < data.sdata.size(); i++) {
             SwitchData switchData = data.sdata.get(i);
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("id", "" + switchData.address);
+            map.put("id", switchData.address);
             map.put("name", switchData.name);
-            map.put("ia", "" + switchData.Ia);
-            map.put("ib", "" + switchData.Ib);
-            map.put("ic", "" + switchData.Ic);
-            map.put("actNum", "" + switchData.num);
+            map.put("ia", switchData.Ia);
+            map.put("ib", switchData.Ib);
+            map.put("ic", switchData.Ic);
+            map.put("actNum", switchData.num);
             map.put("load", switchData.load);
 
             map.put("state", switchData.switchState);
@@ -377,4 +378,90 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        Map<String, Object> item = (Map<String, Object>) listView.getItemAtPosition(i);
+        SwitchData switchData = new SwitchData();
+        switchData.address = ((long) item.get("id"));
+        switchData.name = item.get("name").toString();
+        switchData.Ia = (float) item.get("ia");
+        switchData.Ic = (float) item.get("ib");
+        switchData.Ib = (float) item.get("ic");
+        switchData.switchState = item.get("state").toString();
+        switchData.load = (float) item.get("load");
+        switchData.num = (int) item.get("actNum");
+        switchData.loadType = (String) item.get("type");
+
+        Log.i("onclick", item.get("id").toString());
+        dialog(switchData);
+
+    }
+
+
+    SwitchData cmdSwitchData;
+
+    protected void dialog(final SwitchData switchData) {
+        cmdSwitchData = switchData;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String title = "";
+        title += switchData.address;
+        if (!("").equals(switchData.name)) {
+            title += ":" + switchData.name;
+        }
+        builder.setTitle(title);
+        int checked = -1;
+        if ("断开".equals(switchData.switchState)) {
+            checked = 0;
+        } else if ("A相".equals(switchData.switchState)) {
+            checked = 1;
+        } else if ("B相".equals(switchData.switchState)) {
+            checked = 2;
+        } else if ("C相".equals(switchData.switchState)) {
+            checked = 3;
+        }
+        builder.setSingleChoiceItems(new String[]{"断开", "A相", "B相", "C相"}, checked, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("test", "" + which);
+                        switch (which) {
+                            case 0:
+                                cmdSwitchData.switchState = "断开";
+                                break;
+                            case 1:
+                                cmdSwitchData.switchState = "A相";
+                                break;
+                            case 2:
+                                cmdSwitchData.switchState = "B相";
+                                break;
+                            case 3:
+                                cmdSwitchData.switchState = "C相";
+                                break;
+                        }
+                    }
+                }
+        );
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+
+                }
+
+        );
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+
+        );
+        builder.create().show();
+    }
 }

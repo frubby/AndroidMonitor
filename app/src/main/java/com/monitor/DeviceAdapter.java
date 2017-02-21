@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 public class DeviceAdapter extends BaseAdapter {
 
     private List<Map<String, Object>> data;
@@ -82,17 +81,17 @@ public class DeviceAdapter extends BaseAdapter {
             itemViews = (ItemViews) convertView.getTag();
         }
         //绑定数据
-        itemViews.id.setText((String) data.get(position).get("id"));
+        itemViews.id.setText("" + data.get(position).get("id"));
         itemViews.name.setText((String) data.get(position).get("name"));
-        itemViews.ia.setText((String) data.get(position).get("ia"));
-        itemViews.ib.setText((String) data.get(position).get("ib"));
+        itemViews.ia.setText("" + data.get(position).get("ia"));
+        itemViews.ib.setText("" + data.get(position).get("ib"));
 
-        itemViews.ic.setText((String) data.get(position).get("ic"));
-        itemViews.outLoad.setText(""+(Float)data.get(position).get("load"));
-        itemViews.act.setText((String) data.get(position).get("actNum"));
-        itemViews.type.setText( (String)data.get(position).get("type"));
+        itemViews.ic.setText("" + data.get(position).get("ic"));
+        itemViews.outLoad.setText("" + (Float) data.get(position).get("load"));
+        itemViews.act.setText("" + data.get(position).get("actNum"));
+        itemViews.type.setText((String) data.get(position).get("type"));
 
-        itemViews.state.setText( (String)data.get(position).get("state"));
+        itemViews.state.setText((String) data.get(position).get("state"));
 
 
         return convertView;
