@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,9 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     public final static int DATA_REFRESH = 1;
     public final static int DATA_STRUCT_REFRESH = 2;
     public final static int STRUCT_REFRESH = 3;
+
+    public final static int DATA_RESULT_OK = 6;
+    public final static int DATA_RESULT_ERR = 7;
 
     public final static int DISCONNECT = 4;
     public final static int CONNECT = 5;
@@ -68,6 +72,25 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     Log.i("handler", "data refresh");
                     refreshDeviceList();
                     refreshArea();
+                    break;
+                case DATA_RESULT_OK:
+                    Log.i("handler", "data result ok");
+
+                    refreshDeviceList();
+                    refreshArea();
+                    Toast.makeText(ActivityNav.this, "设置成功.", Toast.LENGTH_SHORT).show();
+
+                    cmdSwitchData = null;
+                    ActivityNav.this.tcpServer.clearCmd();
+                    break;
+                case DATA_RESULT_ERR:
+//                    if (cmdSwitchData == null)
+//                        return;
+                    Log.i("handler", "data result err");
+                    Toast.makeText(ActivityNav.this, "设置失败.", Toast.LENGTH_SHORT).show();
+                    ActivityNav.this.tcpServer.clearCmd();
+
+                    cmdSwitchData = null;
                     break;
                 case DISCONNECT:
                     imageView.setImageResource(R.drawable.disconnect);
@@ -383,6 +406,17 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        if (cmdSwitchData != null) {
+            if (((System.currentTimeMillis() - cmdTime) / 1000) <= 30) {
+                Log.i("onclick", "last cmd not resp");
+                Toast.makeText(this, "请稍后再试.", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                cmdSwitchData = null;
+            }
+        }
+
+
         Map<String, Object> item = (Map<String, Object>) listView.getItemAtPosition(i);
         SwitchData switchData = new SwitchData();
         switchData.address = ((long) item.get("id"));
@@ -401,7 +435,8 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
     }
 
 
-    SwitchData cmdSwitchData;
+    SwitchData cmdSwitchData = null;
+    long cmdTime;
 
     protected void dialog(final SwitchData switchData) {
         cmdSwitchData = switchData;
@@ -449,6 +484,7 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
                     public void onClick(DialogInterface dialog, int which) {
 
                         tcpServer.sendCmd(cmdSwitchData);
+                        cmdTime = System.currentTimeMillis();
                         dialog.dismiss();
                     }
 

@@ -24,15 +24,35 @@ public class SampleApplication extends Application {
         currentData = data;
     }
 
+    public synchronized static void refreshData(SwitchData sd) {
+
+        Iterator<SwitchData> iterator = currentData.sdata.iterator();
+        while (iterator.hasNext()) {
+            SwitchData currentSwitchData = iterator.next();
+
+            if (currentSwitchData.address == sd.address) {
+                currentSwitchData.num = sd.num;
+                currentSwitchData.Ia = sd.Ia;
+                currentSwitchData.Ib = sd.Ib;
+                currentSwitchData.Ic = sd.Ic;
+                currentSwitchData.load = sd.load;
+                currentSwitchData.loadType = sd.loadType;
+                currentSwitchData.switchState = sd.switchState;
+            }
+            currentSwitchData = null;
+        }
+
+    }
+
     public synchronized static void refreshData(Data data) {
         if (currentData == null)
             return;
 //        if (currentData.address != data.address)
 //            return;
-         if (currentData.config.containsKey(data.address))
-             currentData.name = currentData.config.get(data.address);
+        if (currentData.config.containsKey(data.address))
+            currentData.name = currentData.config.get(data.address);
         else
-             currentData.name = "地址:"+data.address+"未配置";
+            currentData.name = "地址:" + data.address + "未配置";
 
         currentData.Ia = data.Ia;
         currentData.Ib = data.Ib;

@@ -1,6 +1,8 @@
 package com.monitor.bean;
 
-public class SwitchData {
+import java.io.Serializable;
+
+public class SwitchData implements Serializable{
 	public long address=0;
 	public String name;
 

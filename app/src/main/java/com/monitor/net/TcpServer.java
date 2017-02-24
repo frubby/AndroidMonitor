@@ -1,6 +1,7 @@
 package com.monitor.net;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -67,6 +68,12 @@ public class TcpServer implements Runnable {
     Protocol protocol;
     TcpLink tcpLink;
 
+    public void clearCmd(){
+        if(protocol!=null){
+            protocol.clearSwitchData();
+        }
+    }
+
     @Override
     public void run() {
         Looper.prepare();
@@ -117,7 +124,6 @@ public class TcpServer implements Runnable {
                     data = protocol.getData();
                     System.out.println(JSON.toJSONString(data, false));
 
-                    SampleApplication.refreshData(data);
 
                     if (handler != null) {  //test case
                         msg = handler.obtainMessage(ActivityNav.DATA_REFRESH);
@@ -140,6 +146,21 @@ public class TcpServer implements Runnable {
                         }
                     } else {
                         Toast.makeText(context, "data parse null ", Toast.LENGTH_SHORT).show();
+                    }
+                    SwitchData sd = protocol.getSwitchData();
+                    if (sd.address > 0) {
+                        SampleApplication.refreshData(sd);
+
+                        msg = handler.obtainMessage(ActivityNav.DATA_RESULT_OK);
+                        Bundle bd = new Bundle();
+                        bd.putSerializable("data", sd);
+                        msg.setData(bd);
+                        handler.sendMessage(msg);
+
+                    } else if (sd.address < 0) {
+
+                        msg = handler.obtainMessage(ActivityNav.DATA_RESULT_ERR);
+                        handler.sendMessage(msg);
                     }
 
                 }
