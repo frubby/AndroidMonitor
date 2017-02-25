@@ -1,36 +1,37 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <SwitchPreference
-        android:visibility="gone"
-        android:enabled="false"
-        android:defaultValue="true"
-        android:key="refresh_switch"
-        android:summary="自动刷新参数值"
-        android:title="自动刷新" />
+    <!--<SwitchPreference-->
+    <!--android:visibility="gone"-->
+    <!--android:enabled="false"-->
+    <!--android:defaultValue="true"-->
+    <!--android:key="refresh_switch"-->
+    <!--android:summary="自动刷新参数值"-->
+    <!--android:title="自动刷新" />-->
 
-    <ListPreference
-        android:visibility="gone"
-        android:defaultValue="-1"
-        android:dependency="refresh_switch"
-        android:entries="@array/pref_sync_frequency_titles"
-        android:entryValues="@array/pref_sync_frequency_values"
-        android:key="refresh_rate"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="刷新频率" />
+    <!--<ListPreference-->
+    <!--android:visibility="gone"-->
+    <!--android:defaultValue="-1"-->
+    <!--android:dependency="refresh_switch"-->
+    <!--android:entries="@array/pref_sync_frequency_titles"-->
+    <!--android:entryValues="@array/pref_sync_frequency_values"-->
+    <!--android:key="refresh_rate"-->
+    <!--android:negativeButtonText="@null"-->
+    <!--android:positiveButtonText="@null"-->
+    <!--android:title="刷新频率" />-->
 
-    <SwitchPreference
-        android:visibility="gone"
-        android:enabled="false"
-        android:defaultValue="true"
-        android:key="client_switch"
-        android:summary="服务端模式"
-        android:title="服务端模式" />
+    <!--<SwitchPreference-->
+    <!--android:visibility="gone"-->
+    <!--android:enabled="false"-->
+    <!--android:defaultValue="true"-->
+    <!--android:key="client_switch"-->
+    <!--android:summary="服务端模式"-->
+    <!--android:title="服务端模式" />-->
 
     <!--android:visibility="gone"-->
 
+    <!--android:dependency="client_switch"-->
+
     <EditTextPreference
-        android:dependency="client_switch"
         android:id="@+id/setting_edit_ip"
         android:capitalize="words"
         android:defaultValue="192.168.0.1"
@@ -50,6 +51,12 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="TCP 端口" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="debug_mode"
+        android:summary="debug"
+        android:title="Debug模式" />
 
 
 </PreferenceScreen>

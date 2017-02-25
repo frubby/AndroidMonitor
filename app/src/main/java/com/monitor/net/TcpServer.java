@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class TcpServer implements Runnable {
@@ -41,12 +42,15 @@ public class TcpServer implements Runnable {
 
     String ip;
     int port;
+    boolean isDebug = false;
 
     public TcpServer(Context context, Handler handler) {
         this.context = context;
         this.handler = handler;
 //        ip = PreferenceManager.getDefaultSharedPreferences(context).getString("text_ip", "");
         port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("text_port", "1234"));
+        isDebug = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug_mode", true);
+
 //
 //        Log.i(TAG, "ip : " + ip + "  port : " + port);
         data = new Data();
@@ -68,8 +72,8 @@ public class TcpServer implements Runnable {
     Protocol protocol;
     TcpLink tcpLink;
 
-    public void clearCmd(){
-        if(protocol!=null){
+    public void clearCmd() {
+        if (protocol != null) {
             protocol.clearSwitchData();
         }
     }
@@ -92,12 +96,18 @@ public class TcpServer implements Runnable {
 
 
             try {
+                if (serverSocket == null || serverSocket.isClosed()) {
+                    break;
+                }
                 clientSocket = serverSocket.accept();
                 tcpLink = new TcpLinkImpl();
                 tcpLink.tcpConnect(clientSocket);
                 protocol = new Protocol(tcpLink);
                 protocol.setLinkState(true);
 
+            } catch (SocketException se) {
+                Toast.makeText(context, "SocketException  error " + se.getMessage(), Toast.LENGTH_LONG).show();
+                continue;
             } catch (IOException e) {
                 Toast.makeText(context, "serverSocket.accept error " + e.getMessage(), Toast.LENGTH_LONG).show();
 
@@ -119,7 +129,7 @@ public class TcpServer implements Runnable {
                         break;
 
 
-                    protocol.dataProcess();
+                    protocol.dataProcess(isDebug);
 
                     data = protocol.getData();
                     System.out.println(JSON.toJSONString(data, false));
@@ -201,6 +211,7 @@ public class TcpServer implements Runnable {
         }
         try {
             serverSocket.close();
+            serverSocket = null;
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -194,11 +194,6 @@ public class ActivityNav extends AppCompatActivity implements TreeNode.TreeNodeC
 
     }
 
-    private boolean isClientMode() {
-        boolean isClient = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("client_switch", false);
-
-        return isClient;
-    }
 
     @Override
     protected void onResume() {
