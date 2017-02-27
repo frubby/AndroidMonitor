@@ -43,6 +43,7 @@ public class TcpServer implements Runnable {
     String ip;
     int port;
     boolean isDebug = false;
+    long cmdPwd = 0x111111;
 
     public TcpServer(Context context, Handler handler) {
         this.context = context;
@@ -50,7 +51,7 @@ public class TcpServer implements Runnable {
 //        ip = PreferenceManager.getDefaultSharedPreferences(context).getString("text_ip", "");
         port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("text_port", "1234"));
         isDebug = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug_mode", true);
-
+        cmdPwd = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(context).getString("debug_password", "111111"), 16);
 //
 //        Log.i(TAG, "ip : " + ip + "  port : " + port);
         data = new Data();
@@ -65,7 +66,7 @@ public class TcpServer implements Runnable {
             Toast.makeText(context, "link error", Toast.LENGTH_SHORT).show();
             return;
         }
-        protocol.setSwitchData(cmd);
+        protocol.setSwitchData(cmd, cmdPwd);
         protocol.dataSendProcess();
     }
 
@@ -84,6 +85,7 @@ public class TcpServer implements Runnable {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
             e.printStackTrace();
             Toast.makeText(context, "ServerSocket error " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
