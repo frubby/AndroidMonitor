@@ -51,7 +51,7 @@ public class TcpServer implements Runnable {
 //        ip = PreferenceManager.getDefaultSharedPreferences(context).getString("text_ip", "");
         port = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString("text_port", "1234"));
         isDebug = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debug_mode", true);
-        cmdPwd = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(context).getString("debug_password", "111111"), 16);
+        cmdPwd = Long.parseLong(PreferenceManager.getDefaultSharedPreferences(context).getString("text_password", "111111"), 16);
 //
 //        Log.i(TAG, "ip : " + ip + "  port : " + port);
         data = new Data();
